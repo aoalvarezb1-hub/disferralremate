@@ -1,116 +1,499 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Catalogo de Productos</title>
+<title>Catalogo REMATE</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f0f2f5;color:#222}
-header{background:#1b3a6b;color:#fff;padding:18px 28px;display:flex;align-items:center;gap:20px}
-.logo-wrap{height:60px;width:140px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-.logo-wrap img{max-height:58px;max-width:138px;object-fit:contain}
-.logo-placeholder{color:rgba(255,255,255,.5);font-size:.7rem;text-align:center;padding:4px}
-.hdr-text h1{font-size:1.4rem;font-weight:700}
-.hdr-text p{font-size:.82rem;opacity:.75;margin-top:3px}
-.controls{background:#fff;padding:12px 28px;border-bottom:2px solid #ddd;display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.08)}
-.controls input{flex:1;min-width:200px;padding:9px 14px;font-size:.9rem;border:1px solid #ccc;border-radius:6px}
-section{padding:18px 28px}
-section>h2{font-size:1.05rem;color:#1b3a6b;margin-bottom:14px;padding-bottom:6px;border-bottom:2px solid #1b3a6b;display:flex;align-items:center;gap:8px}
-.sec-count{font-size:.8rem;color:#888;font-weight:400}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+body{font-family:Arial,sans-serif;background:#f0f2f5;color:#222;overflow-x:hidden}
+header{background:#1b3a6b;color:#fff;padding:14px 22px;display:flex;align-items:center;gap:16px}
+.logo-wrap{height:54px;min-width:120px;background:rgba(255,255,255,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;padding:4px}
+.logo-wrap img{max-height:50px;max-width:116px;object-fit:contain}
+.ht h1{font-size:1.3rem;font-weight:700}.ht p{font-size:.76rem;opacity:.7;margin-top:3px}
+.ctrl{background:#fff;padding:10px 22px;border-bottom:2px solid #ddd;display:flex;gap:10px;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.ctrl input{flex:1;padding:8px 13px;font-size:.9rem;border:1px solid #ccc;border-radius:6px}
+.cbt{background:#25d366;color:#fff;border:none;padding:9px 16px;border-radius:20px;cursor:pointer;font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.cbt:hover{background:#1db954}
+.cnt{background:#fff;color:#25d366;border-radius:50%;width:20px;height:20px;font-size:.7rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+section{padding:14px 22px}
+section h2{font-size:1rem;color:#1b3a6b;margin-bottom:12px;padding-bottom:5px;border-bottom:2px solid #1b3a6b}
+.sec-n{font-size:.76rem;color:#999;font-weight:400;margin-left:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:13px}
 .card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 7px rgba(0,0,0,.09);display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
 .card[hidden]{display:none}
-.card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.14)}
-.img-wrap{height:190px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.img-wrap img{width:100%;height:100%;object-fit:contain;padding:6px}
-.noimg{color:#bbb;font-size:.8rem}
-.info{padding:11px 13px;display:flex;flex-direction:column;gap:5px;flex:1}
-.top-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-.code{background:#e8f0fe;color:#1b3a6b;font-size:.7rem;font-weight:700;padding:2px 6px;border-radius:4px;font-family:monospace}
-.badge{background:#fff3cd;color:#856404;font-size:.65rem;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase}
-.name{font-size:.86rem;font-weight:600;line-height:1.35;color:#111}
-.meta{display:flex;gap:6px;flex-wrap:wrap}
-.qty{font-size:.72rem;background:#e6f4ea;color:#2e7d32;padding:2px 7px;border-radius:4px}
-.qty.low{background:#fdecea;color:#c62828}
-.price{font-size:1.08rem;font-weight:700;color:#1b3a6b;margin-top:2px}
-.iva{font-size:.68rem;font-weight:400;color:#888;vertical-align:middle;margin-left:2px}
-/* Socket tables */
-.socket-group{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 7px rgba(0,0,0,.08);margin-bottom:14px}
-.socket-group[hidden]{display:none}
-.sg-header{background:#1b3a6b;color:#fff;padding:10px 16px;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
-.sg-header:hover{background:#154080}
-.sg-count{font-weight:400;font-size:.8rem;opacity:.8}
-.sg-table{width:100%;border-collapse:collapse;font-size:.82rem;display:none}
-.sg-table.open{display:table}
-.sg-table thead th{background:#f0f4ff;color:#1b3a6b;padding:8px 12px;text-align:left;font-size:.78rem;border-bottom:1px solid #dde4f0}
-.sg-table tbody tr{border-bottom:1px solid #f0f0f0;transition:background .1s}
-.sg-table tbody tr:hover{background:#f8f8ff}
-.sg-table tbody tr.low td{color:#c62828}
-.td-code{font-family:monospace;font-size:.73rem;color:#666;white-space:nowrap}
-.td-price{font-weight:700;color:#1b3a6b;white-space:nowrap}
-.td-qty{text-align:center;font-weight:600}
-td{padding:7px 12px;vertical-align:middle}
-footer{text-align:center;padding:18px;color:#888;font-size:.78rem;background:#fff;border-top:1px solid #ddd;margin-top:8px}
+.card:hover{transform:translateY(-3px);box-shadow:0 5px 16px rgba(0,0,0,.13)}
+.iw{height:180px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:zoom-in}
+.iw img{width:100%;height:100%;object-fit:contain;padding:6px;transition:transform .2s}
+.iw:hover img{transform:scale(1.05)}
+.zi{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:rgba(255,255,255,0);transition:.2s;pointer-events:none}
+.iw:hover .zi{background:rgba(0,0,0,.28);color:#fff}
+.nop{cursor:default}.nop span{color:#ccc;font-size:.8rem}
+.ci{padding:10px 12px;display:flex;flex-direction:column;gap:5px;flex:1}
+.tr{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.cd{background:#e8f0fe;color:#1b3a6b;font-size:.68rem;font-weight:700;padding:2px 6px;border-radius:4px;font-family:monospace}
+.bx{background:#fff3cd;color:#856404;font-size:.62rem;padding:2px 6px;border-radius:4px;font-weight:700}
+.nm{font-size:.83rem;font-weight:600;line-height:1.35;color:#111;flex:1}
+.ql{font-size:.7rem;background:#e6f4ea;color:#2e7d32;padding:2px 7px;border-radius:4px;display:inline-block}
+.ql.low{background:#fdecea;color:#c62828}
+.cf{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:4px;flex-wrap:wrap}
+.pr{font-size:.98rem;color:#1b3a6b;font-weight:700}
+.pr small{font-size:.62rem;font-weight:400;color:#999}
+.ba{background:#1b3a6b;color:#fff;border:none;padding:6px 11px;border-radius:6px;cursor:pointer;font-size:.74rem;font-weight:700;transition:.15s;white-space:nowrap}
+.ba:hover{background:#154080}.ba.ok{background:#25d366}
+/* Socket groups */
+.sg{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 7px rgba(0,0,0,.08);margin-bottom:11px}
+.sg[hidden]{display:none}
+.sh{background:#1b3a6b;color:#fff;padding:10px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;user-select:none}
+.sh:hover{background:#154080}
+.sl{display:flex;align-items:center;gap:10px;font-size:.86rem;font-weight:700}
+.st{width:52px;height:40px;object-fit:cover;border-radius:5px;border:2px solid rgba(255,255,255,.3);cursor:zoom-in;flex-shrink:0;transition:.15s}
+.st:hover{border-color:#fff;transform:scale(1.08)}
+.sr{display:flex;align-items:center;gap:8px}
+.sc{font-size:.74rem;opacity:.8;font-weight:400}
+.sa{font-size:.78rem;transition:transform .2s}.sa.op{transform:rotate(180deg)}
+.sb{display:none}.sb.op{display:block}
+table{width:100%;border-collapse:collapse;font-size:.79rem}
+thead th{background:#f0f4ff;color:#1b3a6b;padding:7px 12px;text-align:left;font-size:.74rem;border-bottom:1px solid #dde4f0}
+tbody tr{border-bottom:1px solid #f0f0f0;transition:background .1s}
+tbody tr:hover{background:#f8f8ff}
+tbody tr.lw td:not(:last-child){color:#c62828}
+td{padding:6px 11px;vertical-align:middle}
+.tc{font-family:monospace;font-size:.68rem;color:#888;white-space:nowrap}
+.tp{font-weight:700;color:#1b3a6b;white-space:nowrap}
+.tq{text-align:center;font-weight:600}
+.bas{background:#1b3a6b;color:#fff;border:none;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:.76rem;font-weight:700;transition:.15s}
+.bas:hover{background:#154080}.bas.ok{background:#25d366}
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;display:none;align-items:center;justify-content:center}
+.lb.on{display:flex}
+.lb img{max-width:92vw;max-height:90vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.6);display:block}
+.lbx{position:fixed;top:14px;right:18px;color:#fff;font-size:2rem;cursor:pointer;z-index:1000;background:rgba(255,255,255,.15);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center}
+.lbx:hover{background:rgba(255,255,255,.3)}
+/* Cart panel */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;display:none}
+.ov.on{display:block}
+.cp{position:fixed;top:0;right:0;height:100%;width:350px;max-width:95vw;background:#fff;box-shadow:-4px 0 20px rgba(0,0,0,.15);z-index:201;display:flex;flex-direction:column;transform:translateX(110%);transition:transform .25s}
+.cp.on{transform:translateX(0)}
+.ch{background:#1b3a6b;color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.ch h3{font-size:.95rem}
+.cx{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;line-height:1}
+.clist{flex:1;overflow-y:auto;padding:10px 14px}
+.ce{color:#bbb;text-align:center;padding:36px 0;font-size:.88rem}
+.citem{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid #f0f0f0;align-items:flex-start}
+.cic{font-size:.66rem;color:#888;font-family:monospace}
+.cin{font-size:.8rem;font-weight:600;line-height:1.3;color:#111;margin-top:2px}
+.cip{font-size:.88rem;font-weight:700;color:#1b3a6b;margin-top:4px}
+.ciq{display:flex;align-items:center;gap:6px;margin-top:5px}
+.qb{background:#eee;border:none;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:.9rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.qb:hover{background:#ddd}
+.qv{font-size:.84rem;font-weight:600;min-width:18px;text-align:center}
+.rm{background:none;border:none;color:#ddd;cursor:pointer;font-size:1.1rem;line-height:1}
+.rm:hover{color:#e53935}
+.cfooter{padding:14px;border-top:2px solid #eee}
+.ctot{display:flex;justify-content:space-between;font-size:.92rem;font-weight:700;color:#1b3a6b;margin-bottom:12px}
+.bwa{width:100%;padding:12px;background:#25d366;color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.bwa:hover{background:#1db954}
+.bwa svg{width:20px;height:20px;fill:#fff}
+.nota{text-align:center;font-size:.68rem;color:#bbb;margin-top:7px}
+footer{text-align:center;padding:14px;color:#999;font-size:.74rem;background:#fff;border-top:1px solid #ddd;margin-top:8px}
+.pbt{background:#fff;color:#1b3a6b;border:2px solid #1b3a6b;padding:8px 14px;border-radius:20px;cursor:pointer;font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:.15s}
+.pbt:hover{background:#1b3a6b;color:#fff}
 @media print{
-  .controls{display:none}
-  header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .grid{grid-template-columns:repeat(3,1fr);gap:10px}
-  .card{break-inside:avoid;box-shadow:none;border:1px solid #ddd}
-  .sg-table{display:table !important}
-  .socket-group{break-inside:avoid}
+  @page{margin:12mm 10mm;size:A4}
+  .ctrl,.ba,.bas,.cbt,.pbt,.ov,.cp,.lb{display:none!important}
+  body{background:#fff;font-size:10pt}
+  header{background:#1b3a6b!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:10px 14px;margin-bottom:8px}
+  header .ht h1{font-size:14pt}
+  section{padding:6px 0;margin-bottom:8px}
+  section h2{font-size:11pt;margin-bottom:8px;border-bottom:2px solid #1b3a6b;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .card{break-inside:avoid;box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
+  .iw{height:130px}
+  .iw .zi{display:none}
+  .nm{font-size:8pt}
+  .cd{font-size:7pt}
+  .pr{font-size:9pt}
+  .ql{font-size:7pt}
+  .sg{break-inside:avoid;page-break-inside:avoid;margin-bottom:8px;box-shadow:none;border:1px solid #ddd}
+  .sh{background:#1b3a6b!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:7px 12px}
+  .sh .sa{display:none}
+  .sb{display:block!important}
+  .sg-body{display:block!important}
+  table{font-size:7.5pt}
+  thead th{background:#e8f0fe!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:4px 8px;font-size:7pt}
+  td{padding:4px 8px}
+  .st{width:36px;height:28px}
+  footer{margin-top:4px;padding:8px;font-size:8pt}
+  .bx{font-size:6pt;padding:1px 4px}
 }
 </style>
 </head>
 <body>
+
 <header>
-  <div class="logo-wrap">
-    <img src="logo.png" onerror="this.style.display='this.nextSibling.style.display='block" alt="Logo">
-    <div class="logo-placeholder" style="display:none">Agregar logo.png</div>
-  </div>
-  <div class="hdr-text">
-    <h1>Catalogo de Productos</h1>
-    <p>Junio 2026 &nbsp;·&nbsp; 118 referencias disponibles</p>
+  <div class="logo-wrap"><img src="logo.png" onerror="this.style.display='none'" alt="Logo"></div>
+  <div class="ht">
+    <h1>Catalogo REMATE</h1>
+    <p>Junio 2026 &nbsp;·&nbsp; 118 referencias &nbsp;·&nbsp; Precios incluyen IVA</p>
   </div>
 </header>
-<div class="controls">
-  <input type="text" id="q" placeholder="Buscar por nombre o codigo..." oninput="filter()">
+
+<div class="ctrl">
+  <input type="text" id="q" placeholder="Buscar por nombre o codigo..." oninput="flt()">
+  <button class="cbt" onclick="openCP()">&#128722; Cotizar <span class="cnt" id="cnt">0</span></button>
+  <button class="pbt" onclick="printCatalog()" title="Imprimir / Guardar PDF">&#128438; Imprimir</button>
 </div>
 
-<section id="sec-tools">
-  <h2>Herramientas <span class="sec-count">38 productos</span></h2>
-  <div class="grid" id="grid-tools"><div class="card" data-search="011101640 cinceles 4 pc5 setd-08757 jgo incompleto (2 pzs) gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM.jpeg" alt="CINCELES 4 PC5 SETD-08757 JGO INCOMPLETO (2 PZS)" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">011101640</span></div><div class="name">CINCELES 4 PC5 SETD-08757 JGO INCOMPLETO (2 PZS)</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$56.373 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0116313 compresometro p/motor gasolina 0-300 psi herr.  pintura"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM (1).jpeg" alt="COMPRESOMETRO P/MOTOR GASOLINA 0-300 PSI" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0116313</span><span class="badge">REMATE</span></div><div class="name">COMPRESOMETRO P/MOTOR GASOLINA 0-300 PSI</div><div class="meta"><span class="qty">Disponible: 4</span></div><div class="price">$171.948 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="tc0348 cortador de tubo 1/8" - 2" toolcraft"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.38 AM (2).jpeg" alt="CORTADOR DE TUBO 1/8" - 2"" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">TC0348</span><span class="badge">REMATE</span></div><div class="name">CORTADOR DE TUBO 1/8" - 2"</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$56.442 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0117331 cortatubo 1/8 a 5/5 general herr.  taller"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM (7).jpeg" alt="CORTATUBO 1/8 A 5/5 GENERAL" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0117331</span><span class="badge">REMATE</span></div><div class="name">CORTATUBO 1/8 A 5/5 GENERAL</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$53.552 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="deg604 destorn golpe  6 pcs tipo 604 uyustool gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.39 AM (1).jpeg" alt="DESTORN GOLPE  6 PCS TIPO 604 UYUSTOOL" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">DEG604</span><span class="badge">REMATE</span></div><div class="name">DESTORN GOLPE  6 PCS TIPO 604 UYUSTOOL</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$33.111 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="14161 destornill pala de golpe 1/4"x6" gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.40 AM.jpeg" alt="DESTORNILL PALA DE GOLPE 1/4"X6"" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">14161</span><span class="badge">REMATE</span></div><div class="name">DESTORNILL PALA DE GOLPE 1/4"X6"</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$11.902 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="011101542 destornill phillip thirfty 3/16x4 stanle gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.41 AM.jpeg" alt="DESTORNILL PHILLIP THIRFTY 3/16X4 STANLE" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">011101542</span><span class="badge">REMATE</span></div><div class="name">DESTORNILL PHILLIP THIRFTY 3/16X4 STANLE</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$9.225 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="akisd1208 destornill t/ratchet 13 en 1 ingco gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.39 AM (7).jpeg" alt="DESTORNILL T/RATCHET 13 EN 1 INGCO" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">AKISD1208</span><span class="badge">REMATE</span></div><div class="name">DESTORNILL T/RATCHET 13 EN 1 INGCO</div><div class="meta"><span class="qty">Disponible: 3</span></div><div class="price">$22.284 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="tc0720 destornillador  phillips 3/8" x 8" toolcraft"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.39 AM (5).jpeg" alt="DESTORNILLADOR  PHILLIPS 3/8" X 8"" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">TC0720</span><span class="badge">REMATE</span></div><div class="name">DESTORNILLADOR  PHILLIPS 3/8" X 8"</div><div class="meta"><span class="qty">Disponible: 4</span></div><div class="price">$7.145 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="993709092 destornillador aislado nº 3 6" westward gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.39 AM (6).jpeg" alt="DESTORNILLADOR AISLADO Nº 3 6" WESTWARD" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">993709092</span><span class="badge">REMATE</span></div><div class="name">DESTORNILLADOR AISLADO Nº 3 6" WESTWARD</div><div class="meta"><span class="qty">Disponible: 2</span></div><div class="price">$17.852 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="85042j destornillador torx cab gira t5-a10 6 pz gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.39 AM (3).jpeg" alt="DESTORNILLADOR TORX CAB GIRA T5-A10 6 PZ" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">85042J</span><span class="badge">REMATE</span></div><div class="name">DESTORNILLADOR TORX CAB GIRA T5-A10 6 PZ</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$24.992 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="2017405 destornillador tox 4 pho t6 jgo gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.40 AM (3).jpeg" alt="DESTORNILLADOR TOX 4 PHO T6 JGO" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">2017405</span><span class="badge">REMATE</span></div><div class="name">DESTORNILLADOR TOX 4 PHO T6 JGO</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$8.213 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="20215 destornilladores duo 1/4x4 truper gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.40 AM (2).jpeg" alt="DESTORNILLADORES DUO 1/4X4 TRUPER" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">20215</span><span class="badge">REMATE</span></div><div class="name">DESTORNILLADORES DUO 1/4X4 TRUPER</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$10.977 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="011018 engrapadora neumatica 6-13mm herr.  carpinteria"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM (4).jpeg" alt="ENGRAPADORA NEUMATICA 6-13MM" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">011018</span><span class="badge">REMATE</span></div><div class="name">ENGRAPADORA NEUMATICA 6-13MM</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$83.302 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="tc1640 flexometro cinta ancha 8mx30mm (1 3/16") toolcraft"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM (5).jpeg" alt="FLEXOMETRO CINTA ANCHA 8MX30MM (1 3/16")" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">TC1640</span><span class="badge">REMATE</span></div><div class="name">FLEXOMETRO CINTA ANCHA 8MX30MM (1 3/16")</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$17.257 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="ya902w llave bristol mm jgox9 pzas uyusa herr.  mecanica"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.39 AM (4).jpeg" alt="LLAVE BRISTOL MM JGOX9 PZAS UYUSA" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">YA902W</span><span class="badge">REMATE</span></div><div class="name">LLAVE BRISTOL MM JGOX9 PZAS UYUSA</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$13.352 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0115273 llave estrella proto jgo 5 pz herr.  mecanica"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.41 AM (1).jpeg" alt="LLAVE ESTRELLA PROTO JGO 5 PZ" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0115273</span><span class="badge">REMATE</span></div><div class="name">LLAVE ESTRELLA PROTO JGO 5 PZ</div><div class="meta"><span class="qty">Disponible: 2</span></div><div class="price">$178.502 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="2011030 llave estria 20x22mm ranger #145 herr.  mecanica"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.40 AM (6).jpeg" alt="LLAVE ESTRIA 20X22MM RANGER #145" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">2011030</span><span class="badge">REMATE</span></div><div class="name">LLAVE ESTRIA 20X22MM RANGER #145</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$18.804 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="yfu15k llave francesa 15" uyustool herr.  mecanica"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.37 AM (3).jpeg" alt="LLAVE FRANCESA 15" UYUSTOOL" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">YFU15K</span><span class="badge">REMATE</span></div><div class="name">LLAVE FRANCESA 15" UYUSTOOL</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$74.377 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="yfp015 llave francesa m/plast 15 amar herr.  mecanica"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.37 AM (4).jpeg" alt="LLAVE FRANCESA M/PLAST 15 AMAR" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">YFP015</span><span class="badge">REMATE</span></div><div class="name">LLAVE FRANCESA M/PLAST 15 AMAR</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$79.494 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="tc3370 llave universal c/cadena toolcraft"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.37 AM (1).jpeg" alt="LLAVE UNIVERSAL C/CADENA" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">TC3370</span><span class="badge">REMATE</span></div><div class="name">LLAVE UNIVERSAL C/CADENA</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$19.042 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0117261 pinza cortacable 9-1/4 727 greenlee herr.  taller"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.38 AM.jpeg" alt="PINZA CORTACABLE 9-1/4 727 GREENLEE" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0117261</span><span class="badge">REMATE</span></div><div class="name">PINZA CORTACABLE 9-1/4 727 GREENLEE</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$65.086 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="tc0335 pinza de corte para electronica 5" toolcraft"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM (6).jpeg" alt="PINZA DE CORTE PARA ELECTRONICA 5"" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">TC0335</span><span class="badge">REMATE</span></div><div class="name">PINZA DE CORTE PARA ELECTRONICA 5"</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$7.509 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0115400 pinza de presion  ajust recto12 westward tornilleria"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.37 AM (6).jpeg" alt="PINZA DE PRESION  AJUST RECTO12 WESTWARD" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0115400</span><span class="badge">REMATE</span></div><div class="name">PINZA DE PRESION  AJUST RECTO12 WESTWARD</div><div class="meta"><span class="qty">Disponible: 2</span></div><div class="price">$26.130 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="tc0129 pinza de presion curva 6" toolcraft"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.38 AM (3).jpeg" alt="PINZA DE PRESION CURVA 6"" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">TC0129</span><span class="badge">REMATE</span></div><div class="name">PINZA DE PRESION CURVA 6"</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$12.497 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="2019765 pinzas largas  11" herr.  mecanica"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.37 AM.jpeg" alt="PINZAS LARGAS  11"" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">2019765</span><span class="badge">REMATE</span></div><div class="name">PINZAS LARGAS  11"</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$16.662 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0131214 pinzas pelacable autom accessorios"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM (8).jpeg" alt="PINZAS PELACABLE AUTOM" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0131214</span><span class="badge">REMATE</span></div><div class="name">PINZAS PELACABLE AUTOM</div><div class="meta"><span class="qty">Disponible: 2</span></div><div class="price">$7.859 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="hts0412 tijera hojalatera 12" ingco gravadas"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.37 AM (7).jpeg" alt="TIJERA HOJALATERA 12" INGCO" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">HTS0412</span></div><div class="name">TIJERA HOJALATERA 12" INGCO</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$45.725 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0112257 tijera p/joyeria herr.  corte"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.38 AM (1).jpeg" alt="TIJERA P/JOYERIA" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0112257</span><span class="badge">REMATE</span></div><div class="name">TIJERA P/JOYERIA</div><div class="meta"><span class="qty">Disponible: 6</span></div><div class="price">$5.952 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="t2004291 tijera p/sastre 9-14" zig-zag cz-915 varios"><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.38 AM (4).jpeg" alt="TIJERA P/SASTRE 9-14" ZIG-ZAG CZ-915" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">T2004291</span><span class="badge">REMATE</span></div><div class="name">TIJERA P/SASTRE 9-14" ZIG-ZAG CZ-915</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$29.752 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="tc0119 tijera aviacion roja toolcraft "><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.38 AM (5).jpeg" alt="TIJERA AVIACION ROJA TOOLCRAFT" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">TC0119</span><span class="badge">REMATE</span></div><div class="name">TIJERA AVIACION ROJA TOOLCRAFT</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$16.065 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0115260 extractoe de bornes para batera "><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM (3).jpeg" alt="EXTRACTOE DE BORNES PARA BATERA" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0115260</span><span class="badge">REMATE</span></div><div class="name">EXTRACTOE DE BORNES PARA BATERA</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$4.165 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="yxs801 llave torx jgox8 t/navaja t-10-45 uyusa "><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.36 AM (2).jpeg" alt="LLAVE TORX JGOX8 T/NAVAJA T-10-45 UYUSA" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">YXS801</span><span class="badge">REMATE</span></div><div class="name">LLAVE TORX JGOX8 T/NAVAJA T-10-45 UYUSA</div><div class="meta"><span class="qty">Disponible: 2</span></div><div class="price">$22.610 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0117191 calibrador galgas espesor 0.015 20 hojas "><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.40 AM (4).jpeg" alt="CALIBRADOR GALGAS ESPESOR 0.015 20 HOJAS" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0117191</span><span class="badge">REMATE</span></div><div class="name">CALIBRADOR GALGAS ESPESOR 0.015 20 HOJAS</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$16.493 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0117350 punzon botador ranger 3/16 "><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.40 AM (5).jpeg" alt="PUNZON BOTADOR RANGER 3/16" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">0117350</span></div><div class="name">PUNZON BOTADOR RANGER 3/16</div><div class="meta"><span class="qty">Disponible: 4</span></div><div class="price">$7.735 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="0117351 punzon botador ranger 1/4 "><div class="img-wrap"><div class="noimg">Sin imagen</div></div><div class="info"><div class="top-row"><span class="code">0117351</span></div><div class="name">PUNZON BOTADOR RANGER 1/4</div><div class="meta"><span class="qty">Disponible: 2</span></div><div class="price">$7.735 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="01110131 destornillador estrella wolfox 1/4x8 "><div class="img-wrap"><div class="noimg">Sin imagen</div></div><div class="info"><div class="top-row"><span class="code">01110131</span></div><div class="name">DESTORNILLADOR ESTRELLA WOLFOX 1/4X8</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$4.641 <span class="iva">IVA incl.</span></div></div></div><div class="card" data-search="011101500 destornillador pala 1/8x8 "><div class="img-wrap"><img src="WhatsApp Unknown 2026-06-12 at 10.20.01 AM/WhatsApp Image 2026-06-12 at 10.19.40 AM (1).jpeg" alt="DESTORNILLADOR PALA 1/8X8" loading="lazy"></div><div class="info"><div class="top-row"><span class="code">011101500</span></div><div class="name">DESTORNILLADOR PALA 1/8X8</div><div class="meta"><span class="qty low">Disponible: 1</span></div><div class="price">$3.046 <span class="iva">IVA incl.</span></div></div></div></div>
+<section>
+  <h2>Herramientas<span class="sec-n">38 productos</span></h2>
+  <div class="grid" id="grid-tools"></div>
 </section>
 
-<section id="sec-sockets">
-  <h2>Dados y Copas <span class="sec-count">80 referencias</span></h2>
-  <div id="grid-sockets"><div class="socket-group"><div class="sg-header">COPA CTE 1/2 6PT <span class="sg-count">(1 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class="low"><td class="td-code">0115302</td><td>COPA CTE 1/2 6PT CV 3/4 LAR <span class="badge">REMATE</span></td><td class="td-price">$15.004</td><td class="td-qty">1</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA CTE 1/2 LARGA <span class="sg-count">(2 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">011586</td><td>COPA CTE 1/2 LARGA 21 MM <span class="badge">REMATE</span></td><td class="td-price">$9.415</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">0115206</td><td>COPA CTE 1/2 LARGA 12 MM <span class="badge">REMATE</span></td><td class="td-price">$2.858</td><td class="td-qty">3</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA CTE 1/2 SATA <span class="sg-count">(6 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">ST13303SC</td><td>COPA CTE 1/2 SATA 12 MM <span class="badge">REMATE</span></td><td class="td-price">$5.058</td><td class="td-qty">5</td></tr><tr class=""><td class="td-code">ST13403SC</td><td>COPA CTE 1/2 SATA 12 MM LAR <span class="badge">REMATE</span></td><td class="td-price">$9.927</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">ST13406SC</td><td>COPA CTE 1/2 SATA 15 MM LAR <span class="badge">REMATE</span></td><td class="td-price">$10.415</td><td class="td-qty">5</td></tr><tr class="low"><td class="td-code">0115365</td><td>COPA CTE 1/2 SATA 16 MM LAR SATA <span class="badge">REMATE</span></td><td class="td-price">$10.415</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">ST13314SC</td><td>COPA CTE 1/2 SATA 23 MM <span class="badge">REMATE</span></td><td class="td-price">$9.087</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">ST13324SC</td><td>COPA CTE 1/2 SATA 28 MM <span class="badge">REMATE</span></td><td class="td-price">$11.000</td><td class="td-qty">4</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA CTE 3/4 12PT <span class="sg-count">(7 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">0115581</td><td>COPA CTE 3/4 12PT C V  1-1/8" <span class="badge">REMATE</span></td><td class="td-price">$40.727</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">0115584</td><td>COPA CTE 3/4 12PT C V  1-3/4 MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$73.033</td><td class="td-qty">3</td></tr><tr class="low"><td class="td-code">0115583</td><td>COPA CTE 3/4 12PT C V  1-3/8" <span class="badge">REMATE</span></td><td class="td-price">$36.262</td><td class="td-qty">1</td></tr><tr class="low"><td class="td-code">6687</td><td>COPA CTE 3/4 12PT C V  27 MM <span class="badge">REMATE</span></td><td class="td-price">$26.537</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">6693</td><td>COPA CTE 3/4 12PT C V  46 MM <span class="badge">REMATE</span></td><td class="td-price">$25.490</td><td class="td-qty">3</td></tr><tr class=""><td class="td-code">0115546</td><td>COPA CTE 3/4 12PT C V 1-5/16 MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$26.182</td><td class="td-qty">3</td></tr><tr class=""><td class="td-code">0115544</td><td>COPA CTE 3/4 12PT C V 15/16 MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$18.626</td><td class="td-qty">2</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA CTE 3/4 6PT <span class="sg-count">(2 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">43820</td><td>COPA CTE 3/4 6PT C V  1-5/8 <span class="badge">REMATE</span></td><td class="td-price">$19.949</td><td class="td-qty">2</td></tr><tr class="low"><td class="td-code">43822</td><td>COPA CTE 3/4 6PT C V  2" <span class="badge">REMATE</span></td><td class="td-price">$30.014</td><td class="td-qty">1</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA CTE 3/8 6PT <span class="sg-count">(1 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">0115182</td><td>COPA CTE 3/8 6PT CV 10MM MPTOOLS SATA <span class="badge">REMATE</span></td><td class="td-price">$2.368</td><td class="td-qty">4</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA LARGA CTE 1/2 <span class="sg-count">(10 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">0115535</td><td>COPA LARGA CTE 1/2 6PT C V 11/16 MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$7.383</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">0115365</td><td>COPA LARGA CTE 1/2 6PT C V 16MM <span class="badge">REMATE</span></td><td class="td-price">$7.642</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">0115539</td><td>COPA LARGA CTE 1/2 6PT C V 18MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$8.851</td><td class="td-qty">5</td></tr><tr class=""><td class="td-code">0115367</td><td>COPA LARGA CTE 1/2 6PT C V 19MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$8.896</td><td class="td-qty">5</td></tr><tr class=""><td class="td-code">0115534</td><td>COPA LARGA CTE 1/2 6PT C V 5/16 MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$6.031</td><td class="td-qty">3</td></tr><tr class=""><td class="td-code">0115364</td><td>COPA LARGA CTE 1/2 6PT C V 5/8 MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$6.681</td><td class="td-qty">3</td></tr><tr class="low"><td class="td-code">0115537</td><td>COPA LARGA CTE 1/2 6PT C V 7/8 MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$11.800</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">0115207</td><td>COPA LARGA CTE 1/2 6PT CV 13MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$6.725</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">0115307</td><td>COPA LARGA CTE 1/2 6PT CV 15MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$7.004</td><td class="td-qty">7</td></tr><tr class="low"><td class="td-code">0115756</td><td>COPA LARGA CTE 1/2 6PT CV 6 MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$6.469</td><td class="td-qty">1</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA LARGA CTE 3/8 <span class="sg-count">(9 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class="low"><td class="td-code">0115197</td><td>COPA LARGA CTE 3/8 6PT CV 11MM <span class="badge">REMATE</span></td><td class="td-price">$3.568</td><td class="td-qty">1</td></tr><tr class="low"><td class="td-code">13770</td><td>COPA LARGA CTE 3/8 6PT CV 10MM <span class="badge">REMATE</span></td><td class="td-price">$3.568</td><td class="td-qty">#</td></tr><tr class=""><td class="td-code">0115199</td><td>COPA LARGA CTE 3/8 6PT CV 12MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$4.151</td><td class="td-qty">9</td></tr><tr class=""><td class="td-code">0115200</td><td>COPA LARGA CTE 3/8 6PT CV 13MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$3.944</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">0115371</td><td>COPA LARGA CTE 3/8 6PT CV 14MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$4.974</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">0115201</td><td>COPA LARGA CTE 3/8 6PT CV 15MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$5.595</td><td class="td-qty">3</td></tr><tr class="low"><td class="td-code">0115757</td><td>COPA LARGA CTE 3/8 6PT CV 18MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$6.666</td><td class="td-qty">1</td></tr><tr class="low"><td class="td-code">0115370</td><td>COPA LARGA CTE 3/8 6PT CV 19MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$8.532</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">0115210</td><td>COPA LARGA CTE 3/8 6PT CV 9MM MPTOOLS <span class="badge">REMATE</span></td><td class="td-price">$3.572</td><td class="td-qty">3</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA MACHO TORX CTE <span class="sg-count">(3 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">0115617</td><td>COPA MACHO TORX CTE 1/2 T20 89215 <span class="badge">REMATE</span></td><td class="td-price">$9.558</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">0115618</td><td>COPA MACHO TORX CTE 1/2 T25 89216 <span class="badge">REMATE</span></td><td class="td-price">$9.558</td><td class="td-qty">2</td></tr><tr class="low"><td class="td-code">0115619</td><td>COPA MACHO TORX CTE 1/2 T27 89217 <span class="badge">REMATE</span></td><td class="td-price">$9.558</td><td class="td-qty">1</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA PTA LARGA SPLINE <span class="sg-count">(1 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class="low"><td class="td-code">0115715</td><td>COPA PTA LARGA SPLINE PLURIDENT 5MM <span class="badge">REMATE</span></td><td class="td-price">$8.927</td><td class="td-qty">1</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">COPA TORX 1/2 SATA <span class="sg-count">(1 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class="low"><td class="td-code">ST13704SC</td><td>COPA TORX 1/2 SATA E16 <span class="badge">REMATE</span></td><td class="td-price">$8.156</td><td class="td-qty">1</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">DADO LARGO MM 6 <span class="sg-count">(1 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">TC3743</td><td>DADO LARGO MM 6 PUNTAS MANDO 1/2 MEDIDA <span class="badge">REMATE</span></td><td class="td-price">$4.524</td><td class="td-qty">3</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">DADO M 1/2" 6PT <span class="sg-count">(23 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class="low"><td class="td-code">0112532</td><td>DADO M 1/2" 6PT  9MM     STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.740</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">0112533</td><td>DADO M 1/2" 6PT  10MM   86510  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.740</td><td class="td-qty">3</td></tr><tr class=""><td class="td-code">0112535</td><td>DADO M 1/2" 6PT  12MM   86512  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.740</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">0112536</td><td>DADO M 1/2" 6PT  13MM   86513  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.740</td><td class="td-qty">3</td></tr><tr class=""><td class="td-code">0112537</td><td>DADO M 1/2" 6PT  14MM   86514  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.740</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">0112538</td><td>DADO M 1/2" 6PT  15MM   86515  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.740</td><td class="td-qty">4</td></tr><tr class="low"><td class="td-code">0112539</td><td>DADO M 1/2" 6PT  16MM   88738  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.740</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">0112540</td><td>DADO M 1/2" 6PT  17MM   88739  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$7.442</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">0112541</td><td>DADO M 1/2" 6PT  18MM   88740  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$7.442</td><td class="td-qty">3</td></tr><tr class=""><td class="td-code">0112543</td><td>DADO M 1/2" 6PT  20MM   88742  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$7.442</td><td class="td-qty">2</td></tr><tr class="low"><td class="td-code">0112544</td><td>DADO M 1/2" 6PT  21MM   88743  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$8.773</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">0112546</td><td>DADO M 1/2" 6PT  23MM   88745  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$8.773</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">0112547</td><td>DADO M 1/2" 6PT  24MM   88746  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$10.105</td><td class="td-qty">3</td></tr><tr class=""><td class="td-code">0112552</td><td>DADO M 1/2" 6PT  32MM   88753  STANLEY <span class="badge">REMATE</span></td><td class="td-price">$18.029</td><td class="td-qty">2</td></tr><tr class="low"><td class="td-code">0112529</td><td>DADO M 1/2" 6PT  36MM     STANLEY <span class="badge">REMATE</span></td><td class="td-price">$30.349</td><td class="td-qty">1</td></tr><tr class="low"><td class="td-code">0112529</td><td>DADO M 1/2" 6PT 1 1/8  88775 STANLEY <span class="badge">REMATE</span></td><td class="td-price">$15.718</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">0112524</td><td>DADO M 1/2" 6PT 13/16 88769 STANLEY <span class="badge">REMATE</span></td><td class="td-price">$8.630</td><td class="td-qty">2</td></tr><tr class="low"><td class="td-code">0112526</td><td>DADO M 1/2" 6PT 15/16 88771 STANLEY <span class="badge">REMATE</span></td><td class="td-price">$12.366</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">0112523</td><td>DADO M 1/2" 6PT 3/4 88768 STANLEY <span class="badge">REMATE</span></td><td class="td-price">$8.630</td><td class="td-qty">2</td></tr><tr class="low"><td class="td-code">0112517</td><td>DADO M 1/2" 6PT 3/8 86442 STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.964</td><td class="td-qty">1</td></tr><tr class="low"><td class="td-code">0112516</td><td>DADO M 1/2" 6PT 5/16 86441 STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.740</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">0112518</td><td>DADO M 1/2" 6PT 7/16 86443 STANLEY <span class="badge">REMATE</span></td><td class="td-price">$6.964</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">0112525</td><td>DADO M 1/2" 6PT 7/8 88770 STANLEY <span class="badge">REMATE</span></td><td class="td-price">$12.890</td><td class="td-qty">2</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">DADO PTA TORX MANDO <span class="sg-count">(7 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">TC3797</td><td>DADO PTA TORX MANDO 1/2" T20 <span class="badge">REMATE</span></td><td class="td-price">$6.067</td><td class="td-qty">8</td></tr><tr class=""><td class="td-code">TC3798</td><td>DADO PTA TORX MANDO 1/2" T25 <span class="badge">REMATE</span></td><td class="td-price">$6.067</td><td class="td-qty">6</td></tr><tr class=""><td class="td-code">TC3801</td><td>DADO PTA TORX MANDO 1/2" T45 <span class="badge">REMATE</span></td><td class="td-price">$6.067</td><td class="td-qty">3</td></tr><tr class="low"><td class="td-code">TC3794</td><td>DADO PTA TORX MANDO 3/8" T45 <span class="badge">REMATE</span></td><td class="td-price">$3.710</td><td class="td-qty">1</td></tr><tr class=""><td class="td-code">TC3790</td><td>DADO PTA TORX MANDO 3/8" T20 <span class="badge">REMATE</span></td><td class="td-price">$3.710</td><td class="td-qty">2</td></tr><tr class=""><td class="td-code">TC3795</td><td>DADO PTA TORX MANDO 3/8" T50 <span class="badge">REMATE</span></td><td class="td-price">$3.710</td><td class="td-qty">4</td></tr><tr class="low"><td class="td-code">TC3796</td><td>DADO PTA TORX MANDO 3/8" T55 <span class="badge">REMATE</span></td><td class="td-price">$5.348</td><td class="td-qty">1</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">DADO PUNTA HEX LARGO <span class="sg-count">(3 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">HDM-76-515</td><td>DADO PUNTA HEX LARGO 12MM</td><td class="td-price">$9.062</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">HDM-76-514</td><td>DADO PUNTA HEX LARGO 10MM</td><td class="td-price">$9.062</td><td class="td-qty">4</td></tr><tr class=""><td class="td-code">HDM-76-513</td><td>DADO PUNTA HEX LARGO 8MM</td><td class="td-price">$9.062</td><td class="td-qty">4</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">EXTENSION CTE 1/4 C <span class="sg-count">(1 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class="low"><td class="td-code">0115727</td><td>EXTENSION CTE 1/4 C V 6"</td><td class="td-price">$4.336</td><td class="td-qty">1</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">EXTENSION CV RANGER CTE <span class="sg-count">(1 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class=""><td class="td-code">2012106</td><td>EXTENSION CV RANGER CTE 1/4-3 <span class="badge">REMATE</span></td><td class="td-price">$3.377</td><td class="td-qty">7</td></tr></tbody></table></div><div class="socket-group"><div class="sg-header">MANGO ARTICULADO FORTE 3/4 <span class="sg-count">(1 medidas)</span></div><table class="sg-table"><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio (IVA incl.)</th><th>Disponible</th></tr></thead><tbody><tr class="low"><td class="td-code">8462</td><td>MANGO ARTICULADO FORTE 3/4 X 17" <span class="badge">REMATE</span></td><td class="td-price">$52.362</td><td class="td-qty">1</td></tr></tbody></table></div></div>
+<section>
+  <h2>Dados y Copas<span class="sec-n">80 referencias</span></h2>
+  <div id="grid-sockets"></div>
 </section>
 
-<footer>Precios incluyen IVA &nbsp;·&nbsp; Catalogo actualizado Junio 10 de 2026 &nbsp;·&nbsp; Sujeto a disponibilidad de inventario</footer>
+<footer>Precios incluyen IVA &nbsp;·&nbsp; Actualizado Junio 10 de 2026 &nbsp;·&nbsp; Sujeto a disponibilidad</footer>
+
+<!-- Lightbox -->
+<div class="lb" id="lb" onclick="cLB()">
+  <span class="lbx" onclick="cLB()">&#10005;</span>
+  <img id="lb-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<!-- Cart overlay + panel -->
+<div class="ov" id="ov" onclick="cCP()"></div>
+<div class="cp" id="cp">
+  <div class="ch"><h3>&#128722; Lista de Cotizacion</h3><button class="cx" onclick="cCP()">&#10005;</button></div>
+  <div class="clist" id="clist"><div class="ce" id="ce">Agrega productos para cotizar.</div></div>
+  <div class="cfooter">
+    <div class="ctot"><span>Total estimado:</span><span id="tv">$0</span></div>
+    <button class="bwa" onclick="sendWA()">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Enviar por WhatsApp
+    </button>
+    <div class="nota">Todos los precios incluyen IVA</div>
+  </div>
+</div>
+
 <script>
-document.querySelectorAll(".sg-header").forEach(function(h){
-  h.addEventListener("click",function(){
-    var t=h.nextElementSibling;
-    t.classList.toggle("open");
+var D = "WhatsApp Unknown 2026-06-12 at 10.20.01 AM/";
+
+// ===== PRODUCT DATA =====
+var tools = [
+  {code:"011101640", name:"CINCELES 4 PC5 SETD-08757 JGO INCOMPLETO (2 PZS)", promo:"", price:"56.373", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM.jpeg"},
+  {code:"0116313", name:"COMPRESOMETRO P/MOTOR GASOLINA 0-300 PSI", promo:"REMATE", price:"171.948", qty:4, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM (1).jpeg"},
+  {code:"YXS801", name:"LLAVE TORX JGOX8 T/NAVAJA T-10-45 UYUSA", promo:"REMATE", price:"22.610", qty:2, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM (2).jpeg"},
+  {code:"0115260", name:"EXTRACTOR DE BORNES PARA BATERIA", promo:"REMATE", price:"4.165", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM (3).jpeg"},
+  {code:"011018", name:"ENGRAPADORA NEUMATICA 6-13MM", promo:"REMATE", price:"83.302", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM (4).jpeg"},
+  {code:"TC1640", name:"FLEXOMETRO CINTA ANCHA 8MX30MM (1 3/16\")", promo:"REMATE", price:"17.257", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM (5).jpeg"},
+  {code:"TC0335", name:"PINZA DE CORTE PARA ELECTRONICA 5\"", promo:"REMATE", price:"7.509", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM (6).jpeg"},
+  {code:"0117331", name:"CORTATUBO 1/8 A 5/5 GENERAL", promo:"REMATE", price:"53.552", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM (7).jpeg"},
+  {code:"0131214", name:"PINZAS PELACABLE AUTOM", promo:"REMATE", price:"7.859", qty:2, img:D+"WhatsApp Image 2026-06-12 at 10.19.36 AM (8).jpeg"},
+  {code:"2019765", name:"PINZAS LARGAS 11\"", promo:"REMATE", price:"16.662", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.37 AM.jpeg"},
+  {code:"TC3370", name:"LLAVE UNIVERSAL C/CADENA", promo:"REMATE", price:"19.042", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.37 AM (1).jpeg"},
+  {code:"YFU15K", name:"LLAVE FRANCESA 15\" UYUSTOOL", promo:"REMATE", price:"74.377", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.37 AM (3).jpeg"},
+  {code:"YFP015", name:"LLAVE FRANCESA M/PLAST 15\" AMAR", promo:"REMATE", price:"79.494", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.37 AM (4).jpeg"},
+  {code:"0115400", name:"PINZA DE PRESION AJUST RECTO 12 WESTWARD", promo:"REMATE", price:"26.130", qty:2, img:D+"WhatsApp Image 2026-06-12 at 10.19.37 AM (6).jpeg"},
+  {code:"HTS0412", name:"TIJERA HOJALATERA 12\" INGCO", promo:"", price:"45.725", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.37 AM (7).jpeg"},
+  {code:"0117261", name:"PINZA CORTACABLE 9-1/4 727 GREENLEE", promo:"REMATE", price:"65.086", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.38 AM.jpeg"},
+  {code:"0112257", name:"TIJERA P/JOYERIA", promo:"REMATE", price:"5.952", qty:6, img:D+"WhatsApp Image 2026-06-12 at 10.19.38 AM (1).jpeg"},
+  {code:"TC0348", name:"CORTADOR DE TUBO 1/8\" - 2\"", promo:"REMATE", price:"56.442", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.38 AM (2).jpeg"},
+  {code:"TC0129", name:"PINZA DE PRESION CURVA 6\"", promo:"REMATE", price:"12.497", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.38 AM (3).jpeg"},
+  {code:"T2004291", name:"TIJERA P/SASTRE 9-14\" ZIG-ZAG CZ-915", promo:"REMATE", price:"29.752", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.38 AM (4).jpeg"},
+  {code:"TC0119", name:"TIJERA AVIACION ROJA TOOLCRAFT", promo:"REMATE", price:"16.065", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.38 AM (5).jpeg"},
+  {code:"DEG604", name:"DESTORN GOLPE 6 PCS TIPO 604 UYUSTOOL", promo:"REMATE", price:"33.111", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.39 AM (1).jpeg"},
+  {code:"85042J", name:"DESTORNILLADOR TORX CAB GIRA T5-A10 6 PZ", promo:"REMATE", price:"24.992", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.39 AM (3).jpeg"},
+  {code:"YA902W", name:"LLAVE BRISTOL MM JGOX9 PZAS UYUSA", promo:"REMATE", price:"13.352", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.39 AM (4).jpeg"},
+  {code:"TC0720", name:"DESTORNILLADOR PHILLIPS 3/8\" X 8\"", promo:"REMATE", price:"7.145", qty:4, img:D+"WhatsApp Image 2026-06-12 at 10.19.39 AM (5).jpeg"},
+  {code:"993709092", name:"DESTORNILLADOR AISLADO No 3 6\" WESTWARD", promo:"REMATE", price:"17.852", qty:2, img:D+"WhatsApp Image 2026-06-12 at 10.19.39 AM (6).jpeg"},
+  {code:"AKISD1208", name:"DESTORNILL T/RATCHET 13 EN 1 INGCO", promo:"REMATE", price:"22.284", qty:3, img:D+"WhatsApp Image 2026-06-12 at 10.19.39 AM (7).jpeg"},
+  {code:"14161", name:"DESTORNILL PALA DE GOLPE 1/4\"X6\"", promo:"REMATE", price:"11.902", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.40 AM.jpeg"},
+  {code:"011101500", name:"DESTORNILLADOR PALA 1/8X8", promo:"", price:"3.046", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.40 AM (1).jpeg"},
+  {code:"20215", name:"DESTORNILLADORES DUO 1/4X4 TRUPER", promo:"REMATE", price:"10.977", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.40 AM (2).jpeg"},
+  {code:"2017405", name:"DESTORNILLADOR TOX 4 PHO T6 JGO", promo:"REMATE", price:"8.213", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.40 AM (3).jpeg"},
+  {code:"0117191", name:"CALIBRADOR GALGAS ESPESOR 0.015 20 HOJAS", promo:"REMATE", price:"16.493", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.40 AM (4).jpeg"},
+  {code:"0117350", name:"PUNZON BOTADOR RANGER 3/16", promo:"", price:"7.735", qty:4, img:D+"WhatsApp Image 2026-06-12 at 10.19.40 AM (5).jpeg"},
+  {code:"2011030", name:"LLAVE ESTRIA 20X22MM RANGER #145", promo:"REMATE", price:"18.804", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.40 AM (6).jpeg"},
+  {code:"011101542", name:"DESTORNILL PHILLIP THIRFTY 3/16X4 STANLEY", promo:"REMATE", price:"9.225", qty:1, img:D+"WhatsApp Image 2026-06-12 at 10.19.41 AM.jpeg"},
+  {code:"0115273", name:"LLAVE ESTRELLA PROTO JGO 5 PZ", promo:"REMATE", price:"178.502", qty:2, img:D+"WhatsApp Image 2026-06-12 at 10.19.41 AM (1).jpeg"},
+  {code:"2012106", name:"EXTENSION CV RANGER CTE 1/4-3", promo:"REMATE", price:"3.377", qty:7, img:D+"WhatsApp Image 2026-06-12 at 10.19.41 AM (2).jpeg"},
+  {code:"01110131", name:"DESTORNILLADOR ESTRELLA WOLFOX 1/4X8", promo:"", price:"4.641", qty:1, img:""}
+];
+
+var sockPhotos = [
+  D+"WhatsApp Image 2026-06-12 at 10.19.42 AM.jpeg",
+  D+"WhatsApp Image 2026-06-12 at 10.19.41 AM (5).jpeg",
+  D+"WhatsApp Image 2026-06-12 at 10.19.41 AM (6).jpeg",
+  D+"WhatsApp Image 2026-06-12 at 10.19.41 AM (4).jpeg"
+];
+
+var sockets = [
+  {code:"0115302", name:"COPA CTE 1/2 6PT CV 3/4 LAR", promo:"REMATE", price:"15.004", qty:1},
+  {code:"011586", name:"COPA CTE 1/2 LARGA 21 MM", promo:"REMATE", price:"9.415", qty:2},
+  {code:"ST13303SC", name:"COPA CTE 1/2 SATA 12 MM", promo:"REMATE", price:"5.058", qty:5},
+  {code:"ST13403SC", name:"COPA CTE 1/2 SATA 12 MM LAR", promo:"REMATE", price:"9.927", qty:4},
+  {code:"ST13406SC", name:"COPA CTE 1/2 SATA 15 MM LAR", promo:"REMATE", price:"10.415", qty:5},
+  {code:"0115365", name:"COPA CTE 1/2 SATA 16 MM LAR SATA", promo:"REMATE", price:"10.415", qty:1},
+  {code:"ST13314SC", name:"COPA CTE 1/2 SATA 23 MM", promo:"REMATE", price:"9.087", qty:2},
+  {code:"ST13324SC", name:"COPA CTE 1/2 SATA 28 MM", promo:"REMATE", price:"11.000", qty:4},
+  {code:"0115206", name:"COPA CTE 1/2 LARGA 12 MM", promo:"REMATE", price:"2.858", qty:3},
+  {code:"0115581", name:"COPA CTE 3/4 12PT C V 1-1/8\"", promo:"REMATE", price:"40.727", qty:4},
+  {code:"0115584", name:"COPA CTE 3/4 12PT C V 1-3/4 MPTOOLS", promo:"REMATE", price:"73.033", qty:3},
+  {code:"0115583", name:"COPA CTE 3/4 12PT C V 1-3/8\"", promo:"REMATE", price:"36.262", qty:1},
+  {code:"6687", name:"COPA CTE 3/4 12PT C V 27 MM", promo:"REMATE", price:"26.537", qty:1},
+  {code:"6693", name:"COPA CTE 3/4 12PT C V 46 MM", promo:"REMATE", price:"25.490", qty:3},
+  {code:"0115546", name:"COPA CTE 3/4 12PT C V 1-5/16 MPTOOLS", promo:"REMATE", price:"26.182", qty:3},
+  {code:"0115544", name:"COPA CTE 3/4 12PT C V 15/16 MPTOOLS", promo:"REMATE", price:"18.626", qty:2},
+  {code:"43820", name:"COPA CTE 3/4 6PT C V 1-5/8", promo:"REMATE", price:"19.949", qty:2},
+  {code:"43822", name:"COPA CTE 3/4 6PT C V 2\"", promo:"REMATE", price:"30.014", qty:1},
+  {code:"0115182", name:"COPA CTE 3/8 6PT CV 10MM MPTOOLS SATA", promo:"REMATE", price:"2.368", qty:4},
+  {code:"0115535", name:"COPA LARGA CTE 1/2 6PT C V 11/16 MPTOOLS", promo:"REMATE", price:"7.383", qty:4},
+  {code:"0115365b", name:"COPA LARGA CTE 1/2 6PT C V 16MM", promo:"REMATE", price:"7.642", qty:4},
+  {code:"0115539", name:"COPA LARGA CTE 1/2 6PT C V 18MM MPTOOLS", promo:"REMATE", price:"8.851", qty:5},
+  {code:"0115367", name:"COPA LARGA CTE 1/2 6PT C V 19MM MPTOOLS", promo:"REMATE", price:"8.896", qty:5},
+  {code:"0115534", name:"COPA LARGA CTE 1/2 6PT C V 5/16 MPTOOLS", promo:"REMATE", price:"6.031", qty:3},
+  {code:"0115364", name:"COPA LARGA CTE 1/2 6PT C V 5/8 MPTOOLS", promo:"REMATE", price:"6.681", qty:3},
+  {code:"0115537", name:"COPA LARGA CTE 1/2 6PT C V 7/8 MPTOOLS", promo:"REMATE", price:"11.800", qty:1},
+  {code:"0115207", name:"COPA LARGA CTE 1/2 6PT CV 13MM MPTOOLS", promo:"REMATE", price:"6.725", qty:2},
+  {code:"0115307", name:"COPA LARGA CTE 1/2 6PT CV 15MM MPTOOLS", promo:"REMATE", price:"7.004", qty:7},
+  {code:"0115756", name:"COPA LARGA CTE 1/2 6PT CV 6 MM MPTOOLS", promo:"REMATE", price:"6.469", qty:1},
+  {code:"0115197", name:"COPA LARGA CTE 3/8 6PT CV 11MM", promo:"REMATE", price:"3.568", qty:1},
+  {code:"13770", name:"COPA LARGA CTE 3/8 6PT CV 10MM", promo:"REMATE", price:"3.568", qty:1},
+  {code:"0115199", name:"COPA LARGA CTE 3/8 6PT CV 12MM MPTOOLS", promo:"REMATE", price:"4.151", qty:9},
+  {code:"0115200", name:"COPA LARGA CTE 3/8 6PT CV 13MM MPTOOLS", promo:"REMATE", price:"3.944", qty:4},
+  {code:"0115371", name:"COPA LARGA CTE 3/8 6PT CV 14MM MPTOOLS", promo:"REMATE", price:"4.974", qty:2},
+  {code:"0115201", name:"COPA LARGA CTE 3/8 6PT CV 15MM MPTOOLS", promo:"REMATE", price:"5.595", qty:3},
+  {code:"0115757", name:"COPA LARGA CTE 3/8 6PT CV 18MM MPTOOLS", promo:"REMATE", price:"6.666", qty:1},
+  {code:"0115370", name:"COPA LARGA CTE 3/8 6PT CV 19MM MPTOOLS", promo:"REMATE", price:"8.532", qty:1},
+  {code:"0115210", name:"COPA LARGA CTE 3/8 6PT CV 9MM MPTOOLS", promo:"REMATE", price:"3.572", qty:3},
+  {code:"0115617", name:"COPA MACHO TORX CTE 1/2 T20", promo:"REMATE", price:"9.558", qty:2},
+  {code:"0115618", name:"COPA MACHO TORX CTE 1/2 T25", promo:"REMATE", price:"9.558", qty:2},
+  {code:"0115619", name:"COPA MACHO TORX CTE 1/2 T27", promo:"REMATE", price:"9.558", qty:1},
+  {code:"0115715", name:"COPA PTA LARGA SPLINE PLURIDENT 5MM", promo:"REMATE", price:"8.927", qty:1},
+  {code:"ST13704SC", name:"COPA TORX 1/2 SATA E16", promo:"REMATE", price:"8.156", qty:1},
+  {code:"TC3743", name:"DADO LARGO MM 6 PUNTAS MANDO 1/2", promo:"REMATE", price:"4.524", qty:3},
+  {code:"0112532", name:"DADO M 1/2\" 6PT 9MM STANLEY", promo:"REMATE", price:"6.740", qty:1},
+  {code:"0112533", name:"DADO M 1/2\" 6PT 10MM STANLEY", promo:"REMATE", price:"6.740", qty:3},
+  {code:"0112535", name:"DADO M 1/2\" 6PT 12MM STANLEY", promo:"REMATE", price:"6.740", qty:4},
+  {code:"0112536", name:"DADO M 1/2\" 6PT 13MM STANLEY", promo:"REMATE", price:"6.740", qty:3},
+  {code:"0112537", name:"DADO M 1/2\" 6PT 14MM STANLEY", promo:"REMATE", price:"6.740", qty:4},
+  {code:"0112538", name:"DADO M 1/2\" 6PT 15MM STANLEY", promo:"REMATE", price:"6.740", qty:4},
+  {code:"0112539", name:"DADO M 1/2\" 6PT 16MM STANLEY", promo:"REMATE", price:"6.740", qty:1},
+  {code:"0112540", name:"DADO M 1/2\" 6PT 17MM STANLEY", promo:"REMATE", price:"7.442", qty:2},
+  {code:"0112541", name:"DADO M 1/2\" 6PT 18MM STANLEY", promo:"REMATE", price:"7.442", qty:3},
+  {code:"0112543", name:"DADO M 1/2\" 6PT 20MM STANLEY", promo:"REMATE", price:"7.442", qty:2},
+  {code:"0112544", name:"DADO M 1/2\" 6PT 21MM STANLEY", promo:"REMATE", price:"8.773", qty:1},
+  {code:"0112546", name:"DADO M 1/2\" 6PT 23MM STANLEY", promo:"REMATE", price:"8.773", qty:2},
+  {code:"0112547", name:"DADO M 1/2\" 6PT 24MM STANLEY", promo:"REMATE", price:"10.105", qty:3},
+  {code:"0112552", name:"DADO M 1/2\" 6PT 32MM STANLEY", promo:"REMATE", price:"18.029", qty:2},
+  {code:"0112529", name:"DADO M 1/2\" 6PT 36MM STANLEY", promo:"REMATE", price:"30.349", qty:1},
+  {code:"0112524", name:"DADO M 1/2\" 6PT 13/16 STANLEY", promo:"REMATE", price:"8.630", qty:2},
+  {code:"0112526", name:"DADO M 1/2\" 6PT 15/16 STANLEY", promo:"REMATE", price:"12.366", qty:1},
+  {code:"0112523", name:"DADO M 1/2\" 6PT 3/4 STANLEY", promo:"REMATE", price:"8.630", qty:2},
+  {code:"0112517", name:"DADO M 1/2\" 6PT 3/8 STANLEY", promo:"REMATE", price:"6.964", qty:1},
+  {code:"0112516", name:"DADO M 1/2\" 6PT 5/16 STANLEY", promo:"REMATE", price:"6.740", qty:1},
+  {code:"0112518", name:"DADO M 1/2\" 6PT 7/16 STANLEY", promo:"REMATE", price:"6.964", qty:2},
+  {code:"0112525", name:"DADO M 1/2\" 6PT 7/8 STANLEY", promo:"REMATE", price:"12.890", qty:2},
+  {code:"TC3797", name:"DADO PTA TORX MANDO 1/2\" T20", promo:"REMATE", price:"6.067", qty:8},
+  {code:"TC3798", name:"DADO PTA TORX MANDO 1/2\" T25", promo:"REMATE", price:"6.067", qty:6},
+  {code:"TC3801", name:"DADO PTA TORX MANDO 1/2\" T45", promo:"REMATE", price:"6.067", qty:3},
+  {code:"TC3794", name:"DADO PTA TORX MANDO 3/8\" T45", promo:"REMATE", price:"3.710", qty:1},
+  {code:"TC3790", name:"DADO PTA TORX MANDO 3/8\" T20", promo:"REMATE", price:"3.710", qty:2},
+  {code:"TC3795", name:"DADO PTA TORX MANDO 3/8\" T50", promo:"REMATE", price:"3.710", qty:4},
+  {code:"TC3796", name:"DADO PTA TORX MANDO 3/8\" T55", promo:"REMATE", price:"5.348", qty:1},
+  {code:"0115727", name:"EXTENSION CTE 1/4 C V 6\"", promo:"", price:"4.336", qty:1},
+  {code:"8462", name:"MANGO ARTICULADO FORTE 3/4 X 17\"", promo:"REMATE", price:"52.362", qty:1},
+  {code:"HDM-76-515", name:"DADO PUNTA HEX LARGO 12MM", promo:"", price:"9.062", qty:4},
+  {code:"HDM-76-514", name:"DADO PUNTA HEX LARGO 10MM", promo:"", price:"9.062", qty:4},
+  {code:"HDM-76-513", name:"DADO PUNTA HEX LARGO 8MM", promo:"", price:"9.062", qty:4}
+];
+
+// ===== CART STATE =====
+var cart = {};
+
+// ===== RENDER TOOLS =====
+function renderTools() {
+  var grid = document.getElementById("grid-tools");
+  var html = "";
+  tools.forEach(function(p) {
+    var imgHtml = p.img
+      ? '<div class="iw" onclick="openLB(\'' + p.img.replace(/'/g,"\\'") + '\')" title="Ver foto ampliada"><img src="' + p.img + '" loading="lazy"><div class="zi">&#128269;</div></div>'
+      : '<div class="iw nop"><span>Sin imagen</span></div>';
+    var badge = p.promo ? '<span class="bx">' + p.promo + '</span>' : '';
+    var qcls = p.qty <= 1 ? 'ql low' : 'ql';
+    var srch = (p.code + ' ' + p.name).toLowerCase();
+    html += '<div class="card" data-s="' + srch + '">';
+    html += imgHtml;
+    html += '<div class="ci">';
+    html += '<div class="tr"><span class="cd">' + p.code + '</span>' + badge + '</div>';
+    html += '<div class="nm">' + p.name + '</div>';
+    html += '<div class="' + qcls + '">Disponible: ' + p.qty + '</div>';
+    html += '<div class="cf"><span class="pr">$' + p.price + '<small> IVA incl.</small></span>';
+    html += '<button class="ba" data-c="' + p.code + '" data-n="' + p.name.replace(/"/g,'&quot;') + '" data-p="' + p.price + '" data-m="' + p.qty + '" onclick="addC(this)">+ Agregar</button>';
+    html += '</div></div></div>';
   });
-});
-function filter(){
-  var q=document.getElementById("q").value.toLowerCase();
-  if(q===""){
-    document.querySelectorAll(".card").forEach(function(c){c.hidden=false});
-    document.querySelectorAll(".socket-group").forEach(function(g){g.hidden=false});
-    return;
+  grid.innerHTML = html;
+}
+
+// ===== RENDER SOCKETS =====
+function renderSockets() {
+  var wrap = document.getElementById("grid-sockets");
+  // Group by first 4 words
+  var groups = {};
+  var order = [];
+  sockets.forEach(function(p) {
+    var words = p.name.split(' ');
+    var key = words.slice(0, 4).join(' ');
+    if (!groups[key]) { groups[key] = []; order.push(key); }
+    groups[key].push(p);
+  });
+  var html = '';
+  var gi = 0;
+  order.forEach(function(gk) {
+    var items = groups[gk];
+    var ph = sockPhotos[gi % sockPhotos.length]; gi++;
+    var srch = gk.toLowerCase();
+    html += '<div class="sg" data-s="' + srch + '">';
+    html += '<div class="sh" onclick="tSG(this)">';
+    html += '<div class="sl"><img class="st" src="' + ph + '" onclick="event.stopPropagation();openLB(\'' + ph.replace(/'/g,"\\'") + '\')" title="Ver foto"><span>' + gk + '</span></div>';
+    html += '<div class="sr"><span class="sc">' + items.length + ' medidas</span><span class="sa">&#9660;</span></div>';
+    html += '</div>';
+    html += '<div class="sb"><table><thead><tr><th>Codigo</th><th>Descripcion</th><th>Precio IVA incl.</th><th>Disp.</th><th></th></tr></thead><tbody>';
+    items.forEach(function(p) {
+      var bd = p.promo ? ' <span class="bx">' + p.promo + '</span>' : '';
+      var rc = p.qty <= 1 ? ' class="lw"' : '';
+      html += '<tr' + rc + '>';
+      html += '<td class="tc">' + p.code + '</td>';
+      html += '<td>' + p.name + bd + '</td>';
+      html += '<td class="tp">$' + p.price + '</td>';
+      html += '<td class="tq">' + p.qty + '</td>';
+      html += '<td><button class="bas" data-c="' + p.code + '" data-n="' + p.name.replace(/"/g,'&quot;') + '" data-p="' + p.price + '" data-m="' + p.qty + '" onclick="addC(this)">+</button></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table></div></div>';
+  });
+  wrap.innerHTML = html;
+}
+
+// ===== CART FUNCTIONS =====
+function addC(btn) {
+  var c = btn.dataset.c, n = btn.dataset.n, p = btn.dataset.p, m = parseInt(btn.dataset.m) || 1;
+  if (cart[c]) {
+    if (cart[c].q >= m) {
+      var orig2 = btn.textContent;
+      btn.textContent = 'Max ' + m;
+      btn.style.background = '#e53935';
+      setTimeout(function(){ btn.textContent = orig2; btn.style.background = ''; }, 1400);
+      return;
+    }
+    cart[c].q++;
+  } else {
+    cart[c] = {c:c, n:n, p:p, q:1, m:m};
   }
-  document.querySelectorAll(".card").forEach(function(c){
-    c.hidden=!c.dataset.search.includes(q);
+  btn.classList.add('ok');
+  var orig = btn.textContent;
+  btn.textContent = 'Agregado';
+  setTimeout(function(){ btn.classList.remove('ok'); btn.textContent = orig; }, 1400);
+  updUI();
+}
+
+function updUI() {
+  var ks = Object.keys(cart);
+  var tot = ks.reduce(function(s,k){ return s + cart[k].q; }, 0);
+  document.getElementById('cnt').textContent = tot;
+  var cl = document.getElementById('clist');
+  if (ks.length === 0) { cl.innerHTML = '<div class="ce">Agrega productos para cotizar.</div>'; updT(); return; }
+  var h = '';
+  ks.forEach(function(k) {
+    var i = cart[k];
+    var pn = parseFloat(i.p.replace(/\./g,'').replace(',','.')) || 0;
+    var lt = (pn * i.q).toLocaleString('es-CO');
+    h += '<div class="citem">';
+    h += '<div style="flex:1">';
+    h += '<div class="cic">' + i.c + '</div>';
+    h += '<div class="cin">' + i.n + '</div>';
+    h += '<div class="cip">$' + i.p + ' x ' + i.q + ' = <b>$' + lt + '</b></div>';
+    var atMax = i.q >= (i.m || 999);
+    h += '<div class="ciq"><button class="qb" onclick="chQ(\'' + k + '\',-1)">&#8722;</button><span class="qv">' + i.q + ' / ' + (i.m || '?') + '</span><button class="qb" onclick="chQ(\'' + k + '\',1)" ' + (atMax ? 'disabled style="opacity:.35;cursor:not-allowed"' : '') + '>+</button></div>';
+    h += '</div>';
+    h += '<button class="rm" onclick="delI(\'' + k + '\')">&#128465;</button>';
+    h += '</div>';
   });
-  document.querySelectorAll(".socket-group").forEach(function(g){
-    var text=g.textContent.toLowerCase();
-    g.hidden=!text.includes(q);
-    if(!g.hidden){ g.querySelector(".sg-table").classList.add("open"); }
+  cl.innerHTML = h;
+  updT();
+}
+
+function updT() {
+  var t = 0;
+  Object.keys(cart).forEach(function(k){
+    var p = parseFloat(cart[k].p.replace(/\./g,'').replace(',','.')) || 0;
+    t += p * cart[k].q;
+  });
+  document.getElementById('tv').textContent = '$' + t.toLocaleString('es-CO');
+}
+
+function chQ(c, d) { if (cart[c]) { cart[c].q = Math.max(1, Math.min(cart[c].m || 999, cart[c].q + d)); updUI(); } }
+function delI(c) { delete cart[c]; updUI(); }
+function openCP() { document.getElementById('ov').classList.add('on'); document.getElementById('cp').classList.add('on'); updUI(); }
+function cCP() { document.getElementById('ov').classList.remove('on'); document.getElementById('cp').classList.remove('on'); }
+
+function sendWA() {
+  var ks = Object.keys(cart);
+  if (ks.length === 0) { alert('No hay productos en la lista.'); return; }
+  var m = 'Hola! Quiero cotizar los siguientes productos del REMATE:%0A%0A';
+  ks.forEach(function(k,i){ var it=cart[k]; m+=(i+1)+'. ['+it.c+'] '+it.n+' - $'+it.p+' (cant: '+it.q+')%0A'; });
+  m += '%0APor favor confirmar disponibilidad. Gracias!';
+  window.open('https://wa.me/573203444588?text=' + m, '_blank');
+}
+
+// ===== LIGHTBOX =====
+function openLB(src) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function cLB() { document.getElementById('lb').classList.remove('on'); document.body.style.overflow = ''; }
+
+// ===== SOCKET TOGGLE =====
+function tSG(h) {
+  var b = h.nextElementSibling, a = h.querySelector('.sa');
+  b.classList.toggle('op'); a.classList.toggle('op');
+}
+
+// ===== SEARCH =====
+function flt() {
+  var q = document.getElementById('q').value.toLowerCase();
+  document.querySelectorAll('.card').forEach(function(c){
+    c.hidden = q !== '' && !c.dataset.s.includes(q);
+  });
+  document.querySelectorAll('.sg').forEach(function(g){
+    var m = q === '' || g.dataset.s.includes(q) || g.textContent.toLowerCase().includes(q);
+    g.hidden = !m;
+    if (!m) return;
+    if (q !== '') { g.querySelector('.sb').classList.add('op'); g.querySelector('.sa').classList.add('op'); }
   });
 }
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { cLB(); cCP(); } });
+
+// ===== PRINT: expand all groups before, collapse after =====
+function printCatalog() {
+  document.querySelectorAll('.sb').forEach(function(b){ b.classList.add('op'); });
+  document.querySelectorAll('.sa').forEach(function(a){ a.classList.add('op'); });
+  setTimeout(function(){ window.print(); }, 200);
+}
+window.onafterprint = function() {
+  document.querySelectorAll('.sb').forEach(function(b){ b.classList.remove('op'); });
+  document.querySelectorAll('.sa').forEach(function(a){ a.classList.remove('op'); });
+};
+
+// ===== INIT =====
+renderTools();
+renderSockets();
 </script>
 </body>
 </html>
