@@ -99,6 +99,8 @@ td{padding:6px 11px;vertical-align:middle}
 footer{text-align:center;padding:14px;color:#999;font-size:.74rem;background:#fff;border-top:1px solid #ddd;margin-top:8px}
 .pbt{background:#fff;color:#1b3a6b;border:2px solid #1b3a6b;padding:8px 14px;border-radius:20px;cursor:pointer;font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:.15s}
 .pbt:hover{background:#1b3a6b;color:#fff}
+@media(max-width:768px){.pbt{display:none}}
+@media(min-width:769px){.pbt-txt{display:none}}
 @media print{
   @page{margin:12mm 10mm;size:A4}
   .ctrl,.ba,.bas,.cbt,.pbt,.ov,.cp,.lb{display:none!important}
@@ -142,7 +144,7 @@ footer{text-align:center;padding:14px;color:#999;font-size:.74rem;background:#ff
 <div class="ctrl">
   <input type="text" id="q" placeholder="Buscar por nombre o codigo..." oninput="flt()">
   <button class="cbt" onclick="openCP()">&#128722; Cotizar <span class="cnt" id="cnt">0</span></button>
-  <button class="pbt" onclick="printCatalog()" title="Imprimir / Guardar PDF">&#128438; Imprimir</button>
+  <button class="pbt" onclick="printCatalog()" title="Imprimir / Guardar PDF">&#128438;<span class="pbt-txt"> Imprimir</span></button>
 </div>
 
 <section>
