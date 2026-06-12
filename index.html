@@ -225,7 +225,11 @@ var tools = [
   {code:"01110131", name:"DESTORNILLADOR ESTRELLA WOLFOX 1/4X8", promo:"", price:"4.641", qty:1, img:""}
 ];
 
-var sockPhoto = D+"WhatsApp Image 2026-06-12 at 10.19.41 AM (5).jpeg";
+var sockPhotos = [
+  D+"WhatsApp Image 2026-06-12 at 10.19.42 AM.jpeg",
+  D+"WhatsApp Image 2026-06-12 at 10.19.41 AM (6).jpeg",
+  D+"WhatsApp Image 2026-06-12 at 10.19.41 AM (5).jpeg"
+];
 
 var sockets = [
   {code:"0115302", name:"COPA CTE 1/2 6PT CV 3/4 LAR", promo:"REMATE", price:"15.004", qty:1},
@@ -348,9 +352,10 @@ function renderSockets() {
     groups[key].push(p);
   });
   var html = '';
+  var gi = 0;
   order.forEach(function(gk) {
     var items = groups[gk];
-    var ph = sockPhoto;
+    var ph = sockPhotos[gi % sockPhotos.length]; gi++;
     var srch = gk.toLowerCase();
     html += '<div class="sg" data-s="' + srch + '">';
     html += '<div class="sh" onclick="tSG(this)">';
