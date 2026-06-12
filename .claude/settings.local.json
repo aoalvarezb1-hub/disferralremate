@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "PowerShell($env:PATH -split ';' | Where-Object { $_ -match 'python|conda|miniforge|anaconda' })",
+      "PowerShell(node --version 2>$null)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
+      "PowerShell(\\(Get-Item \"C:\\\\Users\\\\HAB\\\\Desktop\\\\cowork - claude\\\\catalogo.html\"\\).Length / 1KB)"
+    ]
+  }
+}
